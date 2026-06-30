@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-pea-300: #d2d7ac;
+  --color-pea-500: #c0c78c;
+  --color-pea-700: #adb668;
+
+  --color-grass-300: #b9c398;
+  --color-grass-500: #a6b37d;
+  --color-grass-700: #8b9a5b;
+
+  --color-cream-300: #fffcf0;
+  --color-cream-500: #fefae0;
+  --color-cream-700: #fdf5c4;
+
+  --color-sand-300: #c2a484;
+  --color-sand-500: #b99470;
+  --color-sand-700: #a47a51;
+}
