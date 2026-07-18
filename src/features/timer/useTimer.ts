@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import decrement from "./timerUtils";
 
-export default function useTimer(initialTime: number) {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+export default function useTimer(initialSeconds: number) {
+  const [timeLeft, setTimeLeft] = useState(initialSeconds);
   const [isRunning, setIsRunning] = useState(false);
+  const [prevInitialSeconds, setPrevInitialSeconds] = useState(initialSeconds);
+
+  if (initialSeconds !== prevInitialSeconds) {
+    setPrevInitialSeconds(initialSeconds);
+    if (!isRunning) {
+      setTimeLeft(initialSeconds);
+    }
+  }
 
   // Timer interval manager
   useEffect(() => {
@@ -24,12 +32,22 @@ export default function useTimer(initialTime: number) {
     return () => clearInterval(intervalId);
   }, [isRunning]);
 
-  const start = () => setIsRunning(true);
+  const toggle = () => {
+    if (isRunning) {
+      pause();
+    } else {
+      start();
+    }
+  };
+  const start = (explicitSeconds?: number) => {
+    if (explicitSeconds !== undefined) setTimeLeft(explicitSeconds);
+    setIsRunning(true);
+  };
   const pause = () => setIsRunning(false);
   const reset = () => {
     setIsRunning(false);
-    setTimeLeft(initialTime);
+    setTimeLeft(initialSeconds);
   };
 
-  return { timeLeft, isRunning, start, pause, reset };
+  return { timeLeft, isRunning, toggle, start, pause, reset };
 }
