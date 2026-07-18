@@ -3,6 +3,29 @@ import useTimer from "./useTimer";
 import formatTime from "../../utils/formatTime";
 import { useAppContext } from "../../context/useAppContext";
 
+const PRESETS = [1, 5, 10, 15, 30, 45, 60, 90];
+
+interface PresetPickerProps {
+  onSelect: (minutes: number) => void;
+}
+
+function PresetPicker({ onSelect }: PresetPickerProps) {
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      {PRESETS.map((minutes) => (
+        <button
+          key={minutes}
+          type="button"
+          onClick={() => onSelect(minutes)}
+          className="rounded-lg border px-4 py-3 bg-pea-300 border-grass-700 transition-colors hover:bg-pea-500 active:bg-pea-700 cursor-pointer"
+        >
+          {minutes} min
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function Timer() {
   // Hooks, State and Context
   const { durationInMinutes, setDurationInMinutes } = useAppContext();
@@ -12,9 +35,9 @@ export default function Timer() {
   const [sessionOn, setSessionOn] = useState(false);
 
   // Helper Functions
-  function beginSession() {
+  function beginSession(explicitMinutes?: number) {
     setSessionOn(true);
-    start();
+    start(explicitMinutes !== undefined ? explicitMinutes * 60 : undefined);
   }
   function endSession() {
     setSessionOn(false);
@@ -27,6 +50,7 @@ export default function Timer() {
     if (!sessionOn)
       return (
         <div>
+          <PresetPicker onSelect={beginSession} />
           {/* Time Slider */}
           <div>
             <label>
@@ -50,7 +74,7 @@ export default function Timer() {
           <div>
             <button
               type="button"
-              onClick={beginSession}
+              onClick={() => beginSession()}
               className="rounded bg-cream-700 border p-2 m-1 cursor-pointer"
             >
               Begin
