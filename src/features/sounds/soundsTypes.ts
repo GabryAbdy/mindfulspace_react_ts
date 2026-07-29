@@ -5,14 +5,16 @@ export type SoundMeta = {
 
 export type SoundPlayable = {
   status: "success";
-  freesoundId: number;
   previewUrl: string;
 };
 
 export type SoundUnavailable = {
   status: "error";
-  freesoundId: number;
   message: string;
 };
 
 export type SoundFetchResult = SoundPlayable | SoundUnavailable;
+
+export type SoundWithStatus = SoundMeta & {
+  fetchResult: SoundFetchResult;
+};

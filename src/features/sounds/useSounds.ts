@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 import type {
-  SoundFetchResult,
+  SoundMeta,
   SoundPlayable,
   SoundUnavailable,
+  SoundWithStatus,
 } from "./soundsTypes";
 import { getSoundById } from "../../services/freesoundApi";
+import { soundsCatalog } from "./soundsCatalog";
+
+type CatalogLookup = Record<number, SoundMeta>;
+
+const catalogLookup = soundsCatalog.reduce<CatalogLookup>(
+  (dictionary, sound) => {
+    dictionary[sound.freesoundId] = sound;
+    return dictionary;
+  },
+  {},
+);
 
 export default function useSounds(soundIds: number[]) {
   // Hook state
 
   const [isLoading, setIsLoading] = useState(true);
-  const [fetchResults, setFetchResults] = useState<SoundFetchResult[]>([]);
+  const [fetchResults, setFetchResults] = useState<SoundWithStatus[]>([]);
 
   useEffect(() => {
     // Fetch sounds metadata
@@ -26,29 +38,44 @@ export default function useSounds(soundIds: number[]) {
 
       // Normalize API responses
 
-      const results: SoundFetchResult[] = settledResults.map(
-        (result, index) => {
-          const freesoundId = soundIds[index];
+      const results: SoundWithStatus[] = settledResults.map((result, index) => {
+        const freesoundId = soundIds[index]!;
+        const meta = catalogLookup[freesoundId];
 
-          if (result.status === "fulfilled") {
-            return {
-              status: "success",
-              freesoundId,
-              previewUrl: result.value.data.previews["preview-hq-mp3"],
-            } satisfies SoundPlayable;
-          }
-
-          console.error(
-            `Fetch failed for sound ${freesoundId}:`,
-            result.reason,
-          );
+        // Guard: treat a missing catalog entry as unavailable
+        if (!meta) {
+          console.error(`No catalog entry found for sound ${freesoundId}`);
           return {
-            status: "error",
             freesoundId,
+            displayName: "Unknown sound",
+            fetchResult: {
+              status: "error",
+              message: "Sound not available at the moment",
+            } satisfies SoundUnavailable,
+          };
+        }
+
+        // From this on, TypeScript narrows meta to SoundMeta
+
+        if (result.status === "fulfilled") {
+          return {
+            ...meta,
+            fetchResult: {
+              status: "success",
+              previewUrl: result.value.data.previews["preview-hq-mp3"],
+            } satisfies SoundPlayable,
+          };
+        }
+
+        console.error(`Fetch failed for sound ${freesoundId}:`, result.reason);
+        return {
+          ...meta,
+          fetchResult: {
+            status: "error",
             message: "Sound not available at the moment",
-          } satisfies SoundUnavailable;
-        },
-      );
+          } satisfies SoundUnavailable,
+        };
+      });
 
       // Update hook state
 
