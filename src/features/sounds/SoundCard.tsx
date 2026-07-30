@@ -17,7 +17,7 @@ export default function SoundCard({
   return (
     <Card isSelected={isSelected} disabled={isUnavailable} onClick={onSelect}>
       {/* Static play/pause button. Playback logic later */}
-      <span
+      <div
         className={[
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
           isUnavailable
@@ -26,9 +26,9 @@ export default function SoundCard({
         ].join(" ")}
       >
         ▶
-      </span>
-      <span className="flex flex-col">
-        <span
+      </div>
+      <div className="flex flex-col">
+        <div
           className={
             isUnavailable
               ? "font-medium text-stone-400"
@@ -36,13 +36,13 @@ export default function SoundCard({
           }
         >
           {sound.displayName}
-        </span>
+        </div>
         {sound.fetchResult.status === "error" && (
-          <span className="text-sm text-stone-400">
+          <div className="text-sm text-stone-400">
             {sound.fetchResult.message}
-          </span>
+          </div>
         )}
-      </span>
+      </div>
     </Card>
   );
 }
