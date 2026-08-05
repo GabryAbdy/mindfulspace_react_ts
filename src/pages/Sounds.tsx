@@ -1,3 +1,10 @@
+import SoundPicker from "../features/sounds/SoundPicker";
+
 export default function Sounds() {
-  return <h1>Sounds Page</h1>;
+  return (
+    <div>
+      <h2>Select your ambient sound</h2>
+      <SoundPicker />
+    </div>
+  );
 }
