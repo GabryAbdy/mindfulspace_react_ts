@@ -2,6 +2,7 @@ import { useState } from "react";
 import useTimer from "./useTimer";
 import formatTime from "../../utils/formatTime";
 import { useAppContext } from "../../context/useAppContext";
+import { Link } from "react-router";
 
 const PRESETS = [1, 5, 10, 15, 30, 45, 60, 90];
 
@@ -28,7 +29,8 @@ function PresetPicker({ onSelect }: PresetPickerProps) {
 
 export default function Timer() {
   // Hooks, State and Context
-  const { durationInMinutes, setDurationInMinutes } = useAppContext();
+  const { durationInMinutes, setDurationInMinutes, confirmedSound } =
+    useAppContext();
   const initialSeconds = durationInMinutes * 60;
   const { timeLeft, isRunning, toggle, start, reset } =
     useTimer(initialSeconds);
@@ -69,6 +71,20 @@ export default function Timer() {
                 ? "1 minuto"
                 : `${durationInMinutes} minuti`}
             </p>
+          </div>
+          {/* Sound Selector */}
+          <div>
+            <p className="text-sm text-grass-700 mb-1">Selected Sound:</p>
+            <div className="flex items-center justify-between rounded-3xl border-2 border-cream-700 bg-grass-700 px-5 py-3">
+              <span className="font-medium text-cream-700">
+                {confirmedSound.kind === "sound"
+                  ? confirmedSound.displayName
+                  : "Silence"}
+              </span>
+              <Link to="/sounds" className="text-sm underline">
+                Change
+              </Link>
+            </div>
           </div>
           {/* Begin Button */}
           <div>
