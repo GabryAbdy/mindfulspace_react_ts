@@ -10,9 +10,12 @@ import SoundCard from "./SoundCard";
 const soundIds = soundsCatalog.map((sound) => sound.freesoundId);
 
 export default function SoundPicker() {
-  const [pendingSoundId, setPendingSoundId] = useState<number | null>(null);
+  const { confirmedSound, confirmSound } = useAppContext();
+  const [pendingSoundId, setPendingSoundId] = useState<number | null>(() => {
+    if (confirmedSound.kind === "sound") return confirmedSound.freesoundId;
+    return null;
+  });
   const { isLoading, fetchResults } = useSounds(soundIds);
-  const { confirmSound } = useAppContext();
 
   const navigate = useNavigate();
 
