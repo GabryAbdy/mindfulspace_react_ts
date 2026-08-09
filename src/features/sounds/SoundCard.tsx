@@ -28,15 +28,14 @@ export default function SoundCard({
   // Starts or stops the preview when the component enters or leaves the playing state.
   useEffect(() => {
     const audio = audioRef.current;
+
     if (!audio) return;
 
     if (isPlaying) {
-      // Play the preview from the beginning whenever it is activated.
-      audio.play().catch(() => {});
+      audio.play().catch(() => {}); // We catch any errors that may occur when trying to play the audio, such as if the user hasn't interacted with the page yet.
     } else {
-      // Stop the audio and reset its position to the start.
       audio.pause();
-      audio.currentTime = 0;
+      audio.currentTime = 0; // Reset the preview to the beginning when it is stopped.
     }
   }, [isPlaying]);
 
@@ -44,7 +43,10 @@ export default function SoundCard({
   // When the preview reaches its maximum duration, it stops and the parent state is updated.
   useEffect(() => {
     const audio = audioRef.current;
+
     if (!audio) return;
+
+    //Flag to track if the audio was stopped automatically by the timeout logic.
     let autoStoppedByTimeout = false;
 
     function handleTimeUpdate() {
@@ -65,9 +67,11 @@ export default function SoundCard({
       }
     }
 
+    // Event Listeners
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("pause", handlePause);
 
+    // Cleanup
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("pause", handlePause);
