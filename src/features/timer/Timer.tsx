@@ -3,6 +3,7 @@ import useTimer from "./useTimer";
 import formatTime from "../../utils/formatTime";
 import { useAppContext } from "../../context/useAppContext";
 import { Link } from "react-router";
+import useSessionAudio from "./useSessionAudio";
 
 const PRESETS = [1, 5, 10, 15, 30, 45, 60, 90];
 
@@ -28,12 +29,19 @@ function PresetPicker({ onSelect }: PresetPickerProps) {
 }
 
 export default function Timer() {
-  // Hooks, State and Context
+  // App Context
   const { durationInMinutes, setDurationInMinutes, confirmedSound } =
     useAppContext();
+
+  // Timer Hook
   const initialSeconds = durationInMinutes * 60;
   const { timeLeft, isRunning, toggle, start, reset } =
     useTimer(initialSeconds);
+
+  // Audio Playback
+  useSessionAudio(confirmedSound, isRunning);
+
+  // Session State
   const [sessionOn, setSessionOn] = useState(false);
 
   // Helper Functions
