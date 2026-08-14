@@ -29,7 +29,7 @@ export default function SoundPicker() {
     // If the user has selected "Silence", we confirm that choice and navigate to the meditation page.
     if (pendingSoundId === null) {
       confirmSound({ kind: "silence" });
-      navigate("/meditate");
+      navigate("/");
       return;
     }
     // If the user has selected a sound, we find the corresponding sound object from the fetched results.
@@ -46,7 +46,7 @@ export default function SoundPicker() {
       displayName: selected.displayName,
       previewUrl: selected.fetchResult.previewUrl,
     });
-    navigate("/meditate");
+    navigate("/");
   }
 
   function handleTogglePlay(freesoundId: number) {
