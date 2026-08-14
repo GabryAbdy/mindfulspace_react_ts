@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type Ref } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import type { SoundWithStatus } from "./soundsTypes";
@@ -10,6 +10,7 @@ interface SoundCardProps {
   onSelect: () => void;
   isPlaying: boolean;
   onTogglePlay: () => void;
+  ref?: Ref<HTMLDivElement>;
 }
 
 export default function SoundCard({
@@ -18,6 +19,7 @@ export default function SoundCard({
   onSelect,
   isPlaying,
   onTogglePlay,
+  ref,
 }: SoundCardProps) {
   // Refs and Constants
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -35,7 +37,7 @@ export default function SoundCard({
       audio.play().catch(() => {}); // We catch any errors that may occur when trying to play the audio, such as if the user hasn't interacted with the page yet.
     } else {
       audio.pause();
-      audio.currentTime = 0; // Reset the preview to the beginning when it is stopped.
+      audio.currentTime = 0;
     }
   }, [isPlaying]);
 
@@ -52,7 +54,6 @@ export default function SoundCard({
     function handleTimeUpdate() {
       if (!audio) return;
       if (audio.currentTime >= PREVIEW_DURATION_SECONDS) {
-        // The preview reached its maximum duration, so we stop it and reset the position.
         audio.pause();
         audio.currentTime = 0;
         autoStoppedByTimeout = true;
@@ -79,7 +80,12 @@ export default function SoundCard({
   }, [onTogglePlay]);
 
   return (
-    <Card isSelected={isSelected} disabled={isUnavailable} onClick={onSelect}>
+    <Card
+      isSelected={isSelected}
+      disabled={isUnavailable}
+      onClick={onSelect}
+      ref={ref}
+    >
       {/* Render the audio element only when a preview is available. */}
       {sound.fetchResult.status === "success" && (
         <audio ref={audioRef} src={sound.fetchResult.previewUrl} />
@@ -88,6 +94,8 @@ export default function SoundCard({
       <button
         type="button"
         onClick={onTogglePlay}
+        disabled={isUnavailable}
+        tabIndex={isSelected ? 0 : -1}
         className={[
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-full cursor-pointer",
           isUnavailable

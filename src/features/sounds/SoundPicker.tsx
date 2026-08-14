@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 import { useNavigate } from "react-router";
 import { useAppContext } from "../../context/useAppContext";
 import { soundsCatalog } from "./soundsCatalog";
@@ -18,6 +18,9 @@ export default function SoundPicker() {
   });
   const [playingSoundId, setPlayingSoundId] = useState<number | null>(null);
   const { isLoading, fetchResults } = useSounds(soundIds);
+
+  //Refs
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const navigate = useNavigate();
 
@@ -45,6 +48,7 @@ export default function SoundPicker() {
     });
     navigate("/meditate");
   }
+
   function handleTogglePlay(freesoundId: number) {
     // If the user clicks the play button for a sound that is already playing, we stop the playback and reset the playing state.
     if (playingSoundId === freesoundId) {
@@ -55,10 +59,40 @@ export default function SoundPicker() {
     setPlayingSoundId(freesoundId);
   }
 
+  function getCurrentIndex() {
+    if (pendingSoundId === null) return 0;
+    const elementIndex = fetchResults.findIndex(
+      (e) => e.freesoundId === pendingSoundId,
+    );
+    // No defense for -1 because the selected sound should always be in the list of fetched results; soundsCatalog is a static list of sounds.
+    return elementIndex + 1;
+  }
+
+  function getSoundIdByIndex(index: number) {
+    if (index === 0) return null;
+    return fetchResults[index - 1]!.freesoundId; // % wraps around index, so non-nullable assertion is safe here.
+  }
+
+  function handleRadioGroupKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    event.preventDefault();
+    const currentIndex = getCurrentIndex();
+    let newIndex: number;
+    if (event.key === "ArrowDown") {
+      newIndex = (currentIndex + 1) % cardRefs.current.length;
+    } else {
+      newIndex =
+        (currentIndex - 1 + cardRefs.current.length) % cardRefs.current.length;
+    }
+    setPendingSoundId(getSoundIdByIndex(newIndex));
+    cardRefs.current[newIndex]!.focus();
+  }
+
   return (
     <div>
       {/* Sound Options */}
       <div
+        onKeyDown={handleRadioGroupKeyDown}
         role="radiogroup"
         aria-label="Ambient sound selection"
         className="flex flex-col gap-3"
@@ -74,8 +108,11 @@ export default function SoundPicker() {
             <NoSoundOption
               isSelected={pendingSoundId === null}
               onSelect={() => setPendingSoundId(null)}
+              ref={(node) => {
+                cardRefs.current[0] = node;
+              }}
             />
-            {fetchResults.map((soundResult) => (
+            {fetchResults.map((soundResult, index) => (
               <SoundCard
                 key={soundResult.freesoundId}
                 sound={soundResult}
@@ -83,6 +120,9 @@ export default function SoundPicker() {
                 onSelect={() => setPendingSoundId(soundResult.freesoundId)}
                 isPlaying={playingSoundId === soundResult.freesoundId}
                 onTogglePlay={() => handleTogglePlay(soundResult.freesoundId)}
+                ref={(node) => {
+                  cardRefs.current[index + 1] = node;
+                }}
               />
             ))}
           </>
