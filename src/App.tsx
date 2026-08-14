@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import Meditate from "./pages/Meditate";
+import Home from "./pages/Home";
 import Sounds from "./pages/Sounds";
 import Header from "./components/layout/Header";
 import PageWrapper from "./components/layout/PageWrapper";
@@ -10,7 +10,7 @@ function App() {
       <Header />
       <PageWrapper>
         <Routes>
-          <Route path="/" element={<Meditate />} />
+          <Route path="/" element={<Home />} />
           <Route path="/sounds" element={<Sounds />} />
           <Route path="*" element={<h1>Error 404 Not Found</h1>} />
         </Routes>
