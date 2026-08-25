@@ -76,8 +76,8 @@ export default function Timer() {
             </label>
             <p>
               {durationInMinutes === 1
-                ? "1 minuto"
-                : `${durationInMinutes} minuti`}
+                ? "1 minute"
+                : `${durationInMinutes} minutes`}
             </p>
           </div>
           {/* Sound Selector */}
@@ -110,7 +110,10 @@ export default function Timer() {
     if (timeLeft === 0)
       return (
         <div>
-          <h2>Sessione Completata!</h2>
+          <h2>
+            You meditated for {durationInMinutes}{" "}
+            {durationInMinutes === 1 ? "minute" : "minutes"}. Well done.
+          </h2>
           <div>
             {/* Reset Button */}
             <button
@@ -118,7 +121,7 @@ export default function Timer() {
               onClick={endSession}
               className="rounded bg-sand-700 border p-2 m-1 cursor-pointer"
             >
-              Conferma
+              Confirm
             </button>
           </div>
         </div>
