@@ -93,7 +93,10 @@ export default function SoundCard({
       {/* Play/Pause Button */}
       <button
         type="button"
-        onClick={onTogglePlay}
+        onClick={(e) => {
+          e.stopPropagation();
+          onTogglePlay();
+        }}
         disabled={isUnavailable}
         tabIndex={isSelected ? 0 : -1}
         className={[
