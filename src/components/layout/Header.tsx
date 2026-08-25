@@ -2,10 +2,10 @@ import { Link } from "react-router";
 
 export default function Header() {
   return (
-    <header className="bg-grass-300">
+    <header className="bg-cream-700">
       <div className="flex justify-center py-4">
         {/* Brand */}
-        <Link to="/" className="font-bold px-4">
+        <Link to="/" className="font-black text-2xl">
           mindfulspace
         </Link>
       </div>
