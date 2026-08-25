@@ -36,12 +36,12 @@ export default function Card({
       onClick={disabled ? undefined : onClick}
       onKeyDown={handleKeyDown}
       className={[
-        "flex items-center gap-4 rounded-3xl border-2 px-5 py-4 transition-colors",
+        "flex items-center gap-4 rounded-2xl border-2 h-16 p-5 transition-colors",
         disabled
           ? "cursor-not-allowed border-stone-200 bg-stone-100"
           : isSelected
-            ? "cursor-pointer border-grass-700 bg-grass-300"
-            : "cursor-pointer border-cream-700 bg-cream-300 hover:border-grass-500",
+            ? "cursor-pointer border-grass-700 bg-grass-500 hover:bg-grass-300"
+            : "cursor-pointer border-sand-700 bg-cream-300 hover:bg-cream-500 hover:shadow-md",
       ].join(" ")}
     >
       {children}

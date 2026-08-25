@@ -6,7 +6,7 @@ interface PageWrapperProps {
 
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (
-    <div className="w-full md:max-w-md mt-2 md:mx-auto md:border md:rounded-2xl md:border-sand-300 p-4 md:bg-cream-500 md:shadow-md">
+    <div className="w-[calc(100%-0.5rem)] max-w-md mt-2 mx-auto border rounded-2xl border-sand-700 p-4 bg-sand-300 shadow-md">
       {children}
     </div>
   );
