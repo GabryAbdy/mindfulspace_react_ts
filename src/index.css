@@ -17,3 +17,8 @@
   --color-sand-500: #b99470;
   --color-sand-700: #a47a51;
 }
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-cream-300);
+}
