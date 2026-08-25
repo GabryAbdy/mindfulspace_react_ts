@@ -103,7 +103,7 @@ export default function SoundCard({
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-full cursor-pointer",
           isUnavailable
             ? "bg-stone-300 text-stone-500"
-            : "bg-grass-700 text-white",
+            : "bg-sand-500 hover:bg-sand-700 border border-black text-cream-500 ",
         ].join(" ")}
       >
         {isPlaying ? (
@@ -118,7 +118,7 @@ export default function SoundCard({
           className={
             isUnavailable
               ? "font-medium text-stone-400"
-              : "font-medium text-cream-700"
+              : "font-semibold italic"
           }
         >
           {sound.displayName}
