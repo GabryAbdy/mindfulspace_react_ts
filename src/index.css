@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans:
+    "Nunito", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji";
+
   --color-pea-300: #d2d7ac;
   --color-pea-500: #c0c78c;
   --color-pea-700: #adb668;
