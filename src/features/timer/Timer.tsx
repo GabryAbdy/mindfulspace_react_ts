@@ -13,13 +13,13 @@ interface PresetPickerProps {
 
 function PresetPicker({ onSelect }: PresetPickerProps) {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-4 gap-3 sm:gap-4">
       {PRESETS.map((minutes) => (
         <button
           key={minutes}
           type="button"
           onClick={() => onSelect(minutes)}
-          className="rounded-lg border px-4 py-3 bg-pea-300 border-grass-700 transition-colors hover:bg-pea-500 active:bg-pea-700 cursor-pointer"
+          className="min-h-16 px-2 py-3 border rounded-2xl border-grass-700 font-semibold bg-pea-300 cursor-pointer transition-all duration-150 hover:bg-pea-500 hover:shadow-md active:bg-pea-700 active:scale-90"
         >
           {minutes} min
         </button>
@@ -59,8 +59,16 @@ export default function Timer() {
     // Pre-session
     if (!sessionOn)
       return (
-        <div>
+        <div className="text-[clamp(0.950rem,2vw,1.125rem)]">
+          <h2 className="mb-3 font-semibold">
+            Select a fixed duration and start the session
+          </h2>
           <PresetPicker onSelect={beginSession} />
+          <div className="flex w-4/5 my-5 mx-auto items-center gap-3">
+            <hr className="flex-1" />
+            <span className="italic">Otherwise</span>
+            <hr className="flex-1" />
+          </div>
           {/* Time Slider */}
           <div>
             <label>
