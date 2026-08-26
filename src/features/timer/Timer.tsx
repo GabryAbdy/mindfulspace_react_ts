@@ -54,6 +54,9 @@ export default function Timer() {
     reset();
   }
 
+  // Slider Progress Calculation
+  const sliderProgress = ((durationInMinutes - 1) / (90 - 1)) * 100;
+
   // Conditional Render Function
   function renderSessionState() {
     // Pre-session
@@ -70,23 +73,37 @@ export default function Timer() {
             <hr className="flex-1" />
           </div>
           {/* Time Slider */}
-          <div>
-            <label>
-              Duration
+          <div className="w-full">
+            <label
+              htmlFor="durationSlider"
+              className="mb-3 block font-semibold"
+            >
+              Select a personalized duration
+            </label>
+            <div className="flex mb-4 items-center gap-4">
               <input
+                id="durationSlider"
                 name="durationSlider"
                 type="range"
                 min={1}
                 max={90}
                 value={durationInMinutes}
                 onChange={(e) => setDurationInMinutes(Number(e.target.value))}
+                // Custom CSS Variable for Slider Progress
+                style={
+                  {
+                    "--slider-progress": `${sliderProgress}%`,
+                  } as React.CSSProperties
+                }
+                className="duration-slider"
               />
-            </label>
-            <p>
-              {durationInMinutes === 1
-                ? "1 minute"
-                : `${durationInMinutes} minutes`}
-            </p>
+
+              <span className="min-w-30 rounded-xl bg-cream-700 px-3 py-2 text-center font-semibold">
+                {durationInMinutes === 1
+                  ? "1 minute"
+                  : `${durationInMinutes} minutes`}
+              </span>
+            </div>
           </div>
           {/* Sound Selector */}
           <div>
