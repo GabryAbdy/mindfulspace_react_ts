@@ -16,11 +16,10 @@ export default function NoSoundOption({
 }: NoSoundOptionProps) {
   return (
     <Card isSelected={isSelected} onClick={onSelect} ref={ref}>
-      <FontAwesomeIcon
-        icon={faVolumeXmark}
-        className="flex h-10 w-10 shrink-0 items-center justify-center text-cream-700"
-      />
-      <div className="font-medium text-cream-700">Silence</div>
+      <div className="flex h-10 w-10 shrink-0 rounded-full items-center justify-center border border-sand-700 bg-cream-300 text-sand-700">
+        <FontAwesomeIcon icon={faVolumeXmark} />
+      </div>
+      <div className="font-bold text-black italic">Silence</div>
     </Card>
   );
 }

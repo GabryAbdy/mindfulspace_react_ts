@@ -36,7 +36,7 @@ export default function Card({
       onClick={disabled ? undefined : onClick}
       onKeyDown={handleKeyDown}
       className={[
-        "flex items-center gap-4 rounded-2xl border-2 h-16 p-5 transition-colors",
+        "flex items-center gap-4 rounded-2xl border-2 h-16 p-5 transition-colors duration-150",
         disabled
           ? "cursor-not-allowed border-stone-200 bg-stone-100"
           : isSelected
