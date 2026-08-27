@@ -46,8 +46,10 @@ export default function Timer() {
 
   // Helper Functions
   function beginSession(explicitMinutes?: number) {
+    const minutesToSet = explicitMinutes ?? durationInMinutes;
+    setDurationInMinutes(minutesToSet);
     setSessionOn(true);
-    start(explicitMinutes !== undefined ? explicitMinutes * 60 : undefined);
+    start(minutesToSet * 60);
   }
   function endSession() {
     setSessionOn(false);

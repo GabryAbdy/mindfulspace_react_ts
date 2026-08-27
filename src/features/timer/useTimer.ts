@@ -36,18 +36,19 @@ export default function useTimer(initialSeconds: number) {
     if (isRunning) {
       pause();
     } else {
-      start();
+      resume();
     }
   };
-  const start = (explicitSeconds?: number) => {
-    if (explicitSeconds !== undefined) setTimeLeft(explicitSeconds);
+  const start = (explicitSeconds: number) => {
+    setTimeLeft(explicitSeconds);
     setIsRunning(true);
   };
   const pause = () => setIsRunning(false);
+  const resume = () => setIsRunning(true);
   const reset = () => {
     setIsRunning(false);
     setTimeLeft(initialSeconds);
   };
 
-  return { timeLeft, isRunning, toggle, start, pause, reset };
+  return { timeLeft, isRunning, toggle, start, reset };
 }
