@@ -72,3 +72,7 @@ body {
   outline: 2px solid var(--color-grass-700);
   outline-offset: 4px;
 }
+
+.button {
+  @apply block p-4 mt-6 w-44 mx-auto rounded-xl text-lg font-bold border border-cream-700 bg-cream-700 shadow-md cursor-pointer transition-all duration-150 hover:bg-grass-700 hover:border-grass-700 hover:shadow-lg hover:scale-105 active:scale-90 active:bg-grass-700 active:border-grass-700;
+}

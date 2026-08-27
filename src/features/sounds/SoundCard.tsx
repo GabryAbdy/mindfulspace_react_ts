@@ -100,7 +100,7 @@ export default function SoundCard({
         disabled={isUnavailable}
         tabIndex={isSelected ? 0 : -1}
         className={[
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full cursor-pointer transition-all duration-100 active:scale-90",
+          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full cursor-pointer transition-all duration-100 hover:scale-105 active:scale-90",
           isUnavailable
             ? "bg-stone-300 text-stone-500"
             : "border border-sand-700 bg-sand-500 text-cream-500 hover:bg-sand-700 ",

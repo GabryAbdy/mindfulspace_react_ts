@@ -90,9 +90,7 @@ export default function SoundPicker() {
 
   return (
     <div className="flex flex-col">
-      <h2 className="mb-5 px-4 border border-grass-700 bg-grass-300 rounded-lg font-bold text-lg shadow-sm self-center">
-        Select your ambient sound
-      </h2>
+      <h2 className="mb-3 font-semibold">Select your ambient sound</h2>
       {/* Sound Options */}
       <div
         onKeyDown={handleRadioGroupKeyDown}
@@ -136,7 +134,7 @@ export default function SoundPicker() {
         type="button"
         disabled={isLoading}
         onClick={handleConfirm}
-        className="self-center w-25 h-12 mt-5 p-2 rounded-2xl border border-grass-700 bg-grass-500 text-lg font-bold shadow-md cursor-pointer transition-all duration-150 hover:bg-grass-700 active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="button disabled:cursor-not-allowed disabled:opacity-50"
       >
         Confirm
       </button>
