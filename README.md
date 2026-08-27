@@ -67,7 +67,7 @@ keyboard navigation across sound cards uses a single shared tabindex that moves 
 ## Getting Started
 
 ```sh
-git clone <repository-url>
+git clone https://github.com/GabryAbdy/mindfulspace_react_ts.git
 cd mindfulspace
 npm install
 ```
