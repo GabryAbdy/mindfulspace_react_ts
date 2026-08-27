@@ -62,7 +62,7 @@ export default function Timer() {
     // Pre-session
     if (!sessionOn)
       return (
-        <div className="text-[clamp(0.950rem,2vw,1.125rem)]">
+        <div>
           <h2 className="mb-3 font-semibold">
             Select a fixed duration and start the session
           </h2>
