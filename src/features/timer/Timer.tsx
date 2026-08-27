@@ -128,7 +128,7 @@ export default function Timer() {
           <button
             type="button"
             onClick={() => beginSession()}
-            className="block p-4 mt-6 w-44 mx-auto rounded-xl text-lg font-bold border border-cream-700 bg-cream-700 shadow-md cursor-pointer transition-all duration-150 hover:bg-grass-700 hover:border-grass-700 hover:shadow-lg hover:scale-105 active:scale-90 active:bg-grass-700 active:border-grass-700"
+            className="button"
           >
             Start Meditation
           </button>
@@ -138,17 +138,13 @@ export default function Timer() {
     if (timeLeft === 0)
       return (
         <div>
-          <h2>
+          <h2 className="text-center text-lg font-bold">
             You meditated for {durationInMinutes}{" "}
             {durationInMinutes === 1 ? "minute" : "minutes"}. Well done.
           </h2>
           <div>
             {/* Reset Button */}
-            <button
-              type="button"
-              onClick={endSession}
-              className="rounded bg-sand-700 border p-2 m-1 cursor-pointer"
-            >
+            <button type="button" onClick={endSession} className="button">
               Confirm
             </button>
           </div>
