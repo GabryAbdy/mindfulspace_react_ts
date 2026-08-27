@@ -152,15 +152,17 @@ export default function Timer() {
       );
     // Session Active
     return (
-      <div>
+      <div className="flex flex-col">
         {/* Countdown */}
-        <h2>{formatTime(timeLeft)}</h2>
-        <div>
+        <div className="p-2 mb-5 text-[clamp(4rem,12vw,7rem)] text-center font-light rounded-xl bg-cream-700">
+          {formatTime(timeLeft)}
+        </div>
+        <div className="flex justify-evenly mb-2">
           {/* Resume-Pause Button */}
           <button
             type="button"
             onClick={toggle}
-            className="rounded bg-grass-500 border p-2 m-1 cursor-pointer"
+            className="p-4 font-bold rounded-xl bg-grass-700 transition-all duration-150 cursor-pointer hover:scale-105 hover:shadow-md active:bg-grass-500 active:scale-95"
             disabled={timeLeft === 0}
           >
             {isRunning ? "Pause" : "Resume"}
@@ -169,7 +171,7 @@ export default function Timer() {
           <button
             type="button"
             onClick={endSession}
-            className="rounded bg-sand-700 border p-2 m-1 cursor-pointer"
+            className="p-4 font-bold rounded-xl bg-sand-700 transition-all duration-150 cursor-pointer hover:scale-105 hover:shadow-md active:scale-95"
           >
             Reset
           </button>
@@ -178,5 +180,5 @@ export default function Timer() {
     );
   }
 
-  return <div>{renderSessionState()}</div>;
+  return renderSessionState();
 }
