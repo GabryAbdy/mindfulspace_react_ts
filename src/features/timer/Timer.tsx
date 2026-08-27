@@ -19,7 +19,7 @@ function PresetPicker({ onSelect }: PresetPickerProps) {
           key={minutes}
           type="button"
           onClick={() => onSelect(minutes)}
-          className="min-h-16 px-2 py-3 border rounded-2xl border-grass-700 font-semibold bg-pea-300 cursor-pointer transition-all duration-150 hover:bg-pea-500 hover:shadow-md active:bg-pea-700 active:scale-90"
+          className="min-h-16 px-2 py-3 border rounded-2xl border-grass-700 font-semibold bg-pea-300 cursor-pointer transition-all duration-150 hover:bg-pea-500 hover:scale-105 hover:shadow-md active:bg-pea-700 active:scale-90"
         >
           {minutes} min
         </button>
@@ -98,7 +98,7 @@ export default function Timer() {
                 className="duration-slider"
               />
 
-              <span className="min-w-30 rounded-xl bg-cream-700 px-3 py-2 text-center font-semibold">
+              <span className="min-w-30 rounded-xl bg-cream-500 px-3 py-2 text-center">
                 {durationInMinutes === 1
                   ? "1 minute"
                   : `${durationInMinutes} minutes`}
@@ -107,28 +107,29 @@ export default function Timer() {
           </div>
           {/* Sound Selector */}
           <div>
-            <p className="text-sm text-grass-700 mb-1">Selected Sound:</p>
-            <div className="flex items-center justify-between rounded-3xl border-2 border-cream-700 bg-grass-700 px-5 py-3">
-              <span className="font-medium text-cream-700">
+            <p className="mb-3 font-semibold">And your favourite sound</p>
+            <div className="flex mb-3 px-5 py-3 items-center justify-between rounded-2xl border border-sand-700 bg-cream-500 ">
+              <span className="font-semibold italic">
                 {confirmedSound.kind === "sound"
                   ? confirmedSound.displayName
                   : "Silence"}
               </span>
-              <Link to="/sounds" className="text-sm underline">
-                Change
+              <Link
+                to="/sounds"
+                className="underline hover:scale-105 active:scale-95"
+              >
+                change
               </Link>
             </div>
           </div>
           {/* Begin Button */}
-          <div>
-            <button
-              type="button"
-              onClick={() => beginSession()}
-              className="rounded bg-cream-700 border p-2 m-1 cursor-pointer"
-            >
-              Begin
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => beginSession()}
+            className="block p-4 mt-6 w-44 mx-auto rounded-xl text-lg font-bold border border-cream-700 bg-cream-700 shadow-md cursor-pointer transition-all duration-150 hover:bg-grass-700 hover:border-grass-700 hover:shadow-lg hover:scale-105 active:scale-90 active:bg-grass-700 active:border-grass-700"
+          >
+            Start Meditation
+          </button>
         </div>
       );
     // Session Complete
@@ -179,5 +180,5 @@ export default function Timer() {
     );
   }
 
-  return <div className="flex justify-center mt-2">{renderSessionState()}</div>;
+  return <div>{renderSessionState()}</div>;
 }
