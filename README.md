@@ -2,9 +2,13 @@
 
 A minimal meditation app built with React and TypeScript, developed as a portfolio project for the **start2impact** Development Master program.
 
+## LInk
+
+**https://mindfulspace-meditation.netlify.app/**
+
 ## Description
 
-MindfulSpace is a mobile-first meditation web app focused on simplicity and calm. It lets users start a timed meditation session, optionally accompanied by a nature sound picked from the Freesound library, and shows a session-complete screen once the timer finishes. The project was built feature by feature with an emphasis on clean architecture, type safety, and deliberate design decisions over quick implementations — the goal being to demonstrate professional React + TypeScript practices rather than just a working prototype.
+MindfulSpace is a meditation web app focused on simplicity and calm. It lets users start a timed meditation session, optionally accompanied by a nature sound picked from the Freesound library, and shows a session-complete screen once the timer finishes. The project was built feature by feature with an emphasis on clean architecture, type safety, and deliberate design decisions over quick implementations — the goal being to demonstrate professional React + TypeScript practices rather than just a working prototype.
 
 ## Tech Stack
 
@@ -13,7 +17,7 @@ MindfulSpace is a mobile-first meditation web app focused on simplicity and calm
 - **Vite**
 - **Tailwind CSS v4** (custom theme)
 - **React Router**
-- **Axios**
+- **Axios** (fetch sounds)
 - **Freesound API** (nature sounds)
 - **FontAwesome** (icons)
 
@@ -52,7 +56,7 @@ This section documents a few implementation choices that depart from the "obviou
 
 ### Timer state sync: render-time sync vs. two-effect pattern
 
-Most of the codebase follows a **two-`useEffect` pattern** for hooks with multiple concerns (e.g. `useSessionAudio`, where one effect reacts to the selected sound and another reacts to the running state). `useTimer` instead syncs `timeLeft` with `initialSeconds` via a **render-time sync** with a `prevInitialSeconds` reference — a deliberate exception, kept for stability rather than "fixed" for consistency.
+Most of the codebase follows a **two-`useEffect` pattern** for hooks with multiple concerns (e.g. `useSessionAudio`, where one effect reacts to the selected sound and another reacts to the running state). `useTimer` instead syncs `timeLeft` with `initialSeconds` via a **render-time sync** with a `prevInitialSeconds` reference; this is a deliberate exeption.
 
 A two-effect alternative was evaluated (one effect for syncing, one for the countdown interval), but it required excluding `isRunning` from the sync effect's dependencies to avoid `Pause` resetting `timeLeft`, meaning an intentionally suppressed `exhaustive-deps` warning. Since `useTimer` was already written, tested, and stable before the two-effect pattern was introduced elsewhere — and has no dependency to suppress in the first place — refactoring it would only gain stylistic uniformity, not correctness, at the risk of regressing a central hook every feature depends on.
 
