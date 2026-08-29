@@ -68,11 +68,11 @@ keyboard navigation across sound cards uses a single shared tabindex that moves 
 
 ```sh
 git clone https://github.com/GabryAbdy/mindfulspace_react_ts.git
-cd mindfulspace
+cd mindfulspace_react_ts
 npm install
 ```
 
-Create a `.env.local` file in the project root with your Freesound API key:
+Create a `.env.local` file in the project root with your Freesound API key (get your key here: https://freesound.org/help/developers/):
 
 ```
 VITE_FREESOUND_API_KEY=your_api_key_here
@@ -86,7 +86,7 @@ npm run dev
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for details.
+Distributed under the MIT License. See `LICENSE` for details.
 
 ## Author
 
