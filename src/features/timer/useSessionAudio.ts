@@ -42,6 +42,7 @@ export default function useSessionAudio(
     if (!audio) return;
 
     if (isRunning) {
+      audio.currentTime = 0; // Reset the audio to the beginning before playing
       audio.play().catch(() => {}); // We catch any errors that may occur when trying to play the audio, such as if the user hasn't interacted with the page yet.
     } else {
       audio.pause();
