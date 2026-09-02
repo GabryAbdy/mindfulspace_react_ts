@@ -10,9 +10,14 @@ export default function useSessionAudio(
 
   // Audio Setup
   useEffect(() => {
-    let audio: HTMLAudioElement;
+    if (confirmedSound.kind === "silence") {
+      audioRef.current?.pause();
+      audioRef.current = null;
+      // If the confirmed sound is silence, we pause any existing audio and clear the reference.
+      return;
+    }
 
-    if (confirmedSound.kind === "silence") return;
+    let audio: HTMLAudioElement;
 
     if (!audioRef.current) {
       // If the audio element doesn't exist yet, we create it and set it up for playback.
