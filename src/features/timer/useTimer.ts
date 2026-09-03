@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import decrement from "./timerUtils";
+import { useState, useEffect, useRef } from "react";
 
 export default function useTimer(initialSeconds: number) {
   const [timeLeft, setTimeLeft] = useState(initialSeconds);
   const [isRunning, setIsRunning] = useState(false);
   const [prevInitialSeconds, setPrevInitialSeconds] = useState(initialSeconds);
+  const endTimeRef = useRef<number | null>(null);
 
   if (initialSeconds !== prevInitialSeconds) {
     setPrevInitialSeconds(initialSeconds);
@@ -18,18 +18,22 @@ export default function useTimer(initialSeconds: number) {
     if (!isRunning) return;
 
     const intervalId = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        const nextTime = decrement(prevTime);
+      if (endTimeRef.current === null) return;
 
-        if (nextTime === 0) {
-          setIsRunning(false);
-        }
+      const nextTime = Math.max(
+        0,
+        Math.ceil((endTimeRef.current - Date.now()) / 1000),
+      );
 
-        return nextTime;
-      });
-    }, 1000);
+      setTimeLeft(nextTime);
+
+      if (nextTime === 0) {
+        setIsRunning(false);
+      }
+    }, 250);
 
     return () => clearInterval(intervalId);
+    //useRef is used for endTimeRef, so it doesn't need to be in the dependency array
   }, [isRunning]);
 
   const toggle = () => {
@@ -40,11 +44,15 @@ export default function useTimer(initialSeconds: number) {
     }
   };
   const start = (explicitSeconds: number) => {
+    endTimeRef.current = Date.now() + explicitSeconds * 1000;
     setTimeLeft(explicitSeconds);
     setIsRunning(true);
   };
   const pause = () => setIsRunning(false);
-  const resume = () => setIsRunning(true);
+  const resume = () => {
+    endTimeRef.current = Date.now() + timeLeft * 1000; // on resume, we need to recalculate the end time based on the remaining time left
+    setIsRunning(true);
+  };
   const reset = () => {
     setIsRunning(false);
     setTimeLeft(initialSeconds);
