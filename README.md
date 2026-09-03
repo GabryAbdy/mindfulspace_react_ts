@@ -68,6 +68,22 @@ A two-effect alternative was evaluated (one effect for syncing, one for the coun
 
 keyboard navigation across sound cards uses a single shared tabindex that moves with selection, following native radio-group behavior (arrows both move and select). This surfaced two bugs worth noting: a parent `Card` was intercepting Space/Enter meant for its child play button (fixed by checking `event.target === event.currentTarget`), and the play button's static `tabIndex` was breaking the group's tab order (fixed by tying it to `isSelected`, plus a native `disabled` state when the sound preview is unavailable).
 
+## Code Review Fixes
+
+This section documents fixes applied after code review, including the reasoning behind each one.
+
+### Incomplete .gitignore
+
+Removed `*.local` because it was too generic. Replaced it with more precise `.env` and `.env*.local` patterns. Also added a `.env.example` file with `VITE_FREESOUND_API_KEY=` left empty, so anyone cloning the repo can immediately see which variable is required.
+
+### Stale session audio not cleaned up (useSessionAudio)
+
+The effect returned early when the user chose "Silence", without cleaning up the previous `<audio>` element still stored in the ref. In the current app flow, this bug can never actually occur — changing a sound always unmounts and remounts the `Timer` component, which resets the ref. The defensive fix was applied anyway, to prevent the issue if the app flow changes in the future: explicit cleanup (`pause()` and setting the ref to `null`) was added before the early return.
+
+### Imprecise timer (useTimer)
+
+The timer relied on `setInterval` decrementing a counter every 1000ms, which browsers throttle in inactive or background tabs — causing the countdown to fall behind real elapsed time. The fix stores a target end timestamp (`Date.now() + duration`) and recalculates the remaining time from `Date.now()` on every tick, so the countdown stays accurate even if ticks are delayed or skipped.
+
 ## Getting Started
 
 ```sh
